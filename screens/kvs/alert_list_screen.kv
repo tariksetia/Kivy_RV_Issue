@@ -1,0 +1,289 @@
+<Grid@GridLayout>:
+    size_hint_y:None
+    height: self.minimum_height
+
+<AlertListScreen>:
+    GridLayout:
+        cols:1
+        canvas.before:
+            Color:
+                rgba: utils.get_color_from_hex("#F4F5F8")
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        GridLayout:
+            cols:1
+            padding: sp(25), sp(25),sp(10) ,sp(10)
+            spacing: sp(10)
+            size_hint_y: None
+            height: sp(180)
+            minimum_height: sp(180)
+            
+            Label:
+                font_size: sp(32)
+                color: utils.get_color_from_hex("#0A145A")
+                size_hint_y: None
+                text_size: self.width, None
+                height: self.texture_size[1]
+                halign: "left"
+                bold: True
+                valign: "middle"
+                text: "Alert List"
+
+            
+        AlertListBox:
+            id: alert_list
+            RecycleView:
+                id: alert_list_view
+                scroll_type: ['bars', 'content']
+                viewclass: 'AlertCard'
+                RecycleGridLayout:
+                    cols:1
+                    default_size: None, sp(450)
+                    default_size_hint: 1, None
+                    size_hint:1 ,None
+                    height: self.minimum_height
+                    spacing: dp(2)
+
+        
+
+<AlertCard>:
+    spacing: sp(20),sp(20)
+    padding: sp(20),sp(20),sp(20),sp(20)
+    cols:1
+    size_hint_y: None
+    height: sp(450)
+    canvas.before:
+        Color:
+            rgba: utils.get_color_from_hex("#e8e8ef")
+        Line:
+            width: 1.5
+            rectangle: self.x, self.y, self.width, self.height
+        Color:
+            rgba: utils.get_color_from_hex(self.background_color)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    
+    Grid:
+        id: first_layer
+        spacing: sp(20), sp(20)
+        rows: 1
+        BackgroundLabel:
+            id: status
+        BorderLabel:
+            id: lbl_category
+        
+
+    
+    Grid:
+        id: second_layer
+        cols: 2
+        spacing: sp(20),sp(20)
+        Grid:
+            cols:1
+            size_hint_x: 0.2
+            FieldName:
+                text:"SENT"
+            FieldValue:
+                id: sent
+        Grid:
+            cols:1
+            FieldName:
+                text:"SENDER"
+            FieldValue:
+                id: sender
+    
+    Grid:
+        id: third_layer
+        cols:2
+        spacing: sp(20),sp(20)
+        Grid:
+            cols:1
+            size_hint_x: 0.2
+            FieldName:
+                text:"EXPIRES"
+            FieldValue:
+                id: expires
+        Grid:
+            cols:1
+            FieldName:
+                text:"DESCRIPTION"
+            FieldValueWrappable:
+                id: long_text
+
+    Grid:
+        id: fourth_layer
+        cols:2
+        spacing: sp(20),sp(20)
+        Grid:
+            cols:1
+            size_hint_x: 0.2
+            FieldName:
+                text:"LANGUAGE"
+            FieldValue:
+                id: language
+        Grid:
+            cols:1
+            FieldName:
+                text:"TITLE"
+            FieldValueWrappable:
+                id: short_text
+    
+    Grid:
+        id: fifth_layer
+        cols:2
+        spacing: sp(20),sp(20)
+        Grid:
+            cols:1
+            size_hint_x: 0.2
+            FieldName:
+                text:"CATEGORY"
+            FieldValue:
+                id: category
+                #text:', '.join(root.alert.category)
+        Grid:
+            cols:1
+            FieldName:
+                text:"EVENT"
+            FieldValue:
+                id: event
+    
+    Grid:
+        id: sixth_layer
+        cols:2
+        spacing: sp(20),sp(20)
+        Grid:
+            cols:1
+            size_hint_x: 0.2
+            FieldName:
+                text:"AREA"
+            FieldValue:
+                id: area_desc
+        Grid:
+            cols:1
+            FieldName:
+                text:"ID"
+            FieldValue:
+                id: alert_id
+    
+    StackLayout:
+        orientation:'lr-tb'
+        spacing: sp(20), sp(20)
+        Grid:
+            size_hint_x: None
+            width: self.minimum_width
+            rows: 1
+            id: alert_seventh
+            spacing: 0
+            padding: 0,0,0,0
+            FlatButton:
+                id: english_toggle
+                text: "English TXT"
+                state: 'down'
+            FlatButton:
+                id: spanish_toggle
+                text: "Spanish TXT"
+            FlatButton:
+                text: "CAP XML"
+            FlatButton:
+                text: "Area on Map"
+        Grid:
+            rows:1
+            size_hint_x: None
+            width: self.minimum_width
+            FlatButton:
+                markup: True
+                text: " Show Alert Details "
+
+
+
+<FlatButton>
+    background_normal: '' 
+    background_down: ''
+    background_color: utils.get_color_from_hex('#FFFFFF') if self.state=='normal' else utils.get_color_from_hex('#787BA3')
+    color: utils.get_color_from_hex("#0B145A") if self.state=='normal' else utils.get_color_from_hex('#FFFFFF')
+    font_size: sp(12)
+    size_hint: (None,None)
+    width: self.texture_size[0] + sp(20)
+    height: self.texture_size[1] + sp(20)
+    canvas.before:
+        Color:
+            rgba: utils.get_color_from_hex("#D8D9E5")
+        Line:
+            width: 2.5
+            rectangle: self.x, self.y, self.width, self.height
+
+
+<FieldName>:
+    font_size: sp(12)
+    color: utils.get_color_from_hex("#757BA0")
+    size_hint_y: None
+    text_size: self.width, None
+    height: self.texture_size[1]
+    halign: "left"
+    bold: True
+    valign: "middle"
+
+<FieldValue>:
+    font_size: sp(12)
+    color: utils.get_color_from_hex("#0B145A")
+    size_hint_y: None
+    text_size: self.width, None
+    height: self.texture_size[1]
+    halign: "left"
+    bold: True
+    valign: "middle"
+
+<FieldValueWrappable>
+    size_hint_y: None
+    text_size: self.width, None
+    height: self.texture_size[1]
+    font_size: sp(12)
+    color: utils.get_color_from_hex("#0B145A")
+    halign: "left"
+    bold: True
+    valign: "middle"
+
+
+<BorderLabel>:
+    font_size: sp(12)
+    color: utils.get_color_from_hex("#4b5ace")
+    size_hint: (None,None)
+    width: self.texture_size[0] + sp(10)
+    height: self.texture_size[1] + sp(7)
+    halign: "center"
+    bold: True
+    valign: "middle"
+    canvas.before:
+        Color:
+            rgba: utils.get_color_from_hex("#e8e8ef")
+        Line:
+            width: 3.1
+            rectangle: self.x, self.y, self.width, self.height
+        Color:
+            rgba: (1,1,1,1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<BackgroundLabel>:
+    canvas.before:
+        Color:
+            rgba: utils.get_color_from_hex("#fc960c")
+        Line:
+            width: 2.5
+            rectangle: self.x, self.y, self.width, self.height
+        Color:
+            rgba: utils.get_color_from_hex("#fc960c")
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    font_size: sp(12)
+    color: utils.get_color_from_hex("#ffffff")
+    size_hint: (None,None)
+    width: self.texture_size[0] + sp(10)
+    height: self.texture_size[1] + sp(7)
+    halign: "center"
+    bold: True
+    valign: "middle"

@@ -1,0 +1,27 @@
+
+<MainScreenManager>:
+    id: screen
+
+    
+    AlertListScreen:
+        id: screen_alert_list
+        name: "screen_alert_list"
+        main_screen_manager: root
+
+    Screen:
+        id: tscreen
+        name: "tscreen"
+        main_screen_manager: root
+        GridLayout:
+            cols: 1
+            TextInput:
+                size_hint_y: 0.95
+                multiline: True
+                id: xml
+            Button:
+                size_hint_y: 0.05
+                text: "Process"
+                on_release: root.process_cmac(xml.text)
+
+        
+
