@@ -1,4 +1,4 @@
-<Grid@GridLayout>:
+<Grid>:
     size_hint_y:None
     height: self.minimum_height
 
@@ -35,11 +35,10 @@
             RecycleView:
                 id: alert_list_view
                 scroll_type: ['bars', 'content']
-                viewclass: 'Card'
+                viewclass: 'AlertCard'
                 key_size:'height'
                 RecycleGridLayout:
                     cols:1
-                    default_size: None,1
                     default_size_hint: 1, None
                     size_hint:1 ,None
                     height: self.minimum_height
@@ -52,6 +51,7 @@
     padding: sp(20),sp(20),sp(20),sp(20)
     cols:1
     size_hint_y: None
+    height: self.minimum_height
     canvas.before:
         Color:
             rgba: utils.get_color_from_hex("#e8e8ef")
@@ -108,7 +108,7 @@
             FieldName:
                 text:"DESCRIPTION"
             FieldValueWrappable:
-                text: root.long_text
+                text: root.format_long_text(root.long_text)
 
     Grid:
         id: fourth_layer
@@ -167,6 +167,8 @@
     StackLayout:
         orientation:'lr-tb'
         spacing: sp(20), sp(20)
+        size_hint_y: None
+        height: self.minimum_height
         Grid:
             size_hint_x: None
             width: self.minimum_width
@@ -174,10 +176,10 @@
             id: alert_seventh
             spacing: 0
             padding: 0,0,0,0
-            FlatToggleButton:
+            FlatButton:
                 text: "English TXT"
-                on_release: root.show_english()
-            FlatToggleButton:
+                on_release: print(len(root.long_text), len(root.short_text))
+            FlatButton:
                 text: "Spanish TXT"
                 on_release: root.show_spanish()
             FlatButton:
@@ -274,6 +276,7 @@
     height: self.texture_size[1] + sp(7)
     halign: "center"
     bold: True
+    markup: True
     valign: "middle"
     canvas.before:
         Color:
@@ -331,7 +334,7 @@
     BoxLayout:
         orientation:'horizontal'
         size_hint_y: None
-        height: dp(16)
+        height: self.minimum_height
         id: first_layer
         spacing: sp(10)
         BackgroundLabel:
@@ -447,8 +450,7 @@
         height: self.minimum_height
         BoxLayout:
             size_hint_y: None
-            height: self.minimum_height
-
+            height: self.minimum_height 
             orientation:'vertical'
             size_hint_x: 0.2
             FieldName:

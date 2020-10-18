@@ -3,6 +3,9 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.properties import ObjectProperty, StringProperty, NumericProperty, ListProperty
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
+from kivy.uix.anchorlayout import AnchorLayout
+from kivy.uix.floatlayout import FloatLayout
+
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
@@ -94,10 +97,26 @@ class AlertCard(GridLayout):
         
     
     def show_english(self):
+        
         idx = self.parent.get_view_index_at(self.center)
         data = self.parent.parent.data
         self.language = "English"
         data[idx]['language'] = 'English'
+    
+    def format_long_text(self,text):
+        len_long_text = len(text)
+        if len(text) == 360:
+            return text
+        if len_long_text < 360:
+            diff = 360 - len_long_text
+            spaces = ' ' * (diff-1)
+            rest = text + spaces + '.'
+
+            print("new",len(rest))
+            return rest
+        if len_long_text > 360:
+            return text[:360]
+
 
 class Card(BoxLayout):
 
@@ -131,6 +150,7 @@ class Card(BoxLayout):
         
     
     def show_english(self):
+        print(self.width)
         idx = self.parent.get_view_index_at(self.center)
         data = self.parent.parent.data
         self.language = "English"
@@ -150,7 +170,7 @@ class AlertListScreen(Screen):
 
 
     def load_data(self, dt):
-        alerts = [Data(**s) for s in samples][:2]
+        alerts = [Data(**s) for s in samples*10]
         data = []
         for alert in alerts:
             row = {
@@ -169,18 +189,21 @@ class AlertListScreen(Screen):
                 'screen_manager': self.main_screen_manager,
                 'english_toggle_state': 'down',
                 'spanish_toggle_state': 'normal'
+
             }
             data.append(row)
         self.ids.alert_list_view.data = data 
 
 
+class Grid(GridLayout):
+    pass
 
 samples =[
     {
         'sent' : "Mickey Mouse",
         'sender' : "Mickey Mouse",
         'expires' : "12/12/2020 11:11:11",
-        'long_text' : "Mickey Mouse" * 10,
+        'long_text' : "Mickey Mouse" * 30,
         'language' : "English | en-US" ,
         'short_text' : "Mickey   " * 10,
         'category' : "HAZMAT",
@@ -194,7 +217,7 @@ samples =[
         'sent' : "Donald Duck",
         'sender' : "Donald Duck",
         'expires' : "12/12/2020 11:11:11",
-        'long_text' : "Donald Duck" * 20,
+        'long_text' : "Donald Duck" *5,
         'language' : "English | en-US" ,
         'short_text' : "Donald   " * 10,
         'category' : "HAZMAT",
