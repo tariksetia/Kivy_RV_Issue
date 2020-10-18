@@ -32,7 +32,6 @@ class Data:
     event:str
     area_desc: str
     alert_id: str
-    lbl_category: str
     status:str
 
 
@@ -64,6 +63,7 @@ class BackgroundLabel(Label):
 
 
 class AlertCard(GridLayout):
+
     alert = ObjectProperty()
     card_state = StringProperty()
     screen_manager = ObjectProperty()
@@ -71,25 +71,34 @@ class AlertCard(GridLayout):
     background_color = StringProperty("#FFFFFF")
     screen_manager = ObjectProperty()
 
-    def __init__(self, **kwargs):
-        self.card_state = 'closed'
-        self.hidden_widgets = []
-        Clock.schedule_once(self._populate_data,0)
-        super().__init__(**kwargs)
+    sent = StringProperty()
+    sender = StringProperty()
+    expires = StringProperty()
+    long_text = StringProperty()
+    language = StringProperty()
+    short_text = StringProperty()
+    category = StringProperty()
+    event = StringProperty()
+    area_desc = StringProperty()
+    alert_id = StringProperty()
+    status = StringProperty()
+    spanish_toggle_state = StringProperty('normal')
+    english_toggle_state = StringProperty('down')
 
-    def _populate_data(self, dt):
-        self.ids.sent.text = self.alert.sent
-        self.ids.sender.text = self.alert.sender
-        self.ids.expires.text = self.alert.expires
-        self.ids.long_text.text = self.alert.long_text
-        self.ids.language.text = "English | en-US" 
-        self.ids.short_text.text = self.alert.short_text
-        self.ids.category.text = self.alert.category
-        self.ids.event.text = self.alert.event
-        self.ids.area_desc.text = self.alert.area_desc
-        self.ids.alert_id.text = self.alert.alert_id
-        self.ids.lbl_category.text = self.alert.category
-        self.ids.status.text = "Acutal public alert".upper()
+
+    def show_spanish(self):
+        idx = self.parent.get_view_index_at(self.center)
+        data = self.parent.parent.data
+        self.language = "Spanish"
+        data[idx]['language'] = 'Spanish'
+        
+    
+    def show_english(self):
+        idx = self.parent.get_view_index_at(self.center)
+        data = self.parent.parent.data
+        self.language = "English"
+        data[idx]['language'] = 'English'
+
 
 
 class AlertListScreen(Screen):
@@ -103,16 +112,29 @@ class AlertListScreen(Screen):
         pass
 
 
-    def load_data(self,dt):
-        alerts = [ Data(**s) for s in samples]
+    def load_data(self, dt):
+        alerts = [Data(**s) for s in samples][:2]
         data = []
         for alert in alerts:
             row = {
                 'alert': alert,
-                'screen_manager': None
+                'sent': alert.sent,
+                'sender': alert.sender,
+                'expires': alert.expires,
+                'long_text': alert.long_text,
+                'language': "English | en-US", 
+                'short_text': alert.short_text,
+                'category': alert.category,
+                'event': alert.event,
+                'area_desc': alert.area_desc ,
+                'alert_id': alert.alert_id,
+                'status': "Acutal public alert".upper(),
+                'screen_manager': self.main_screen_manager,
+                'english_toggle_state': 'down',
+                'spanish_toggle_state': 'normal'
             }
             data.append(row)
-        self.ids.alert_list_view.data = data   
+        self.ids.alert_list_view.data = data 
 
 
 
@@ -121,14 +143,13 @@ samples =[
         'sent' : "Mickey Mouse",
         'sender' : "Mickey Mouse",
         'expires' : "12/12/2020 11:11:11",
-        'long_text' : "Mickey Mouse" * 30,
+        'long_text' : "Mickey Mouse" * 10,
         'language' : "English | en-US" ,
         'short_text' : "Mickey   " * 10,
         'category' : "HAZMAT",
         'event' : "Election",
         'area_desc' : "Mickey Mouse" ,
         'alert_id' : "1800-US-ELECTION",
-        'lbl_category' : "Safety",
         'status' : "Acutal public alert".upper(),
     },
 
@@ -136,14 +157,13 @@ samples =[
         'sent' : "Donald Duck",
         'sender' : "Donald Duck",
         'expires' : "12/12/2020 11:11:11",
-        'long_text' : "Donald Duck" * 30,
+        'long_text' : "Donald Duck" * 20,
         'language' : "English | en-US" ,
         'short_text' : "Donald   " * 10,
         'category' : "HAZMAT",
         'event' : "Election",
         'area_desc' : "Donald Duck" ,
         'alert_id' : "1800-US-ELECTION",
-        'lbl_category' : "Safety",
         'status' : "Acutal public alert".upper(),
     },
 
@@ -158,7 +178,6 @@ samples =[
         'event' : "Election",
         'area_desc' : "Uncle Scrooge",
         'alert_id' : "1800-US-ELECTION",
-        'lbl_category' : "Safety",
         'status' : "Acutal public alert".upper(),
     },
 ]

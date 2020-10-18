@@ -52,7 +52,7 @@
     padding: sp(20),sp(20),sp(20),sp(20)
     cols:1
     size_hint_y: None
-    height: sp(450)
+    height: dp(450)
     canvas.before:
         Color:
             rgba: utils.get_color_from_hex("#e8e8ef")
@@ -70,11 +70,9 @@
         spacing: sp(20), sp(20)
         rows: 1
         BackgroundLabel:
-            id: status
+            text: root.status
         BorderLabel:
-            id: lbl_category
-        
-
+            text: root.category
     
     Grid:
         id: second_layer
@@ -86,17 +84,18 @@
             FieldName:
                 text:"SENT"
             FieldValue:
-                id: sent
+                text: root.sent
         Grid:
             cols:1
             FieldName:
                 text:"SENDER"
             FieldValue:
-                id: sender
+                text: root.sender
     
     Grid:
         id: third_layer
         cols:2
+        size_hint_y: None
         spacing: sp(20),sp(20)
         Grid:
             cols:1
@@ -104,13 +103,13 @@
             FieldName:
                 text:"EXPIRES"
             FieldValue:
-                id: expires
+                text: root.expires
         Grid:
             cols:1
             FieldName:
                 text:"DESCRIPTION"
             FieldValueWrappable:
-                id: long_text
+                text: root.long_text
 
     Grid:
         id: fourth_layer
@@ -122,13 +121,13 @@
             FieldName:
                 text:"LANGUAGE"
             FieldValue:
-                id: language
+                text: root.language
         Grid:
             cols:1
             FieldName:
                 text:"TITLE"
             FieldValueWrappable:
-                id: short_text
+                text: root.short_text
     
     Grid:
         id: fifth_layer
@@ -140,14 +139,13 @@
             FieldName:
                 text:"CATEGORY"
             FieldValue:
-                id: category
-                #text:', '.join(root.alert.category)
+                text: root.category
         Grid:
             cols:1
             FieldName:
                 text:"EVENT"
             FieldValue:
-                id: event
+                text: root.event
     
     Grid:
         id: sixth_layer
@@ -159,13 +157,13 @@
             FieldName:
                 text:"AREA"
             FieldValue:
-                id: area_desc
+                text: root.area_desc
         Grid:
             cols:1
             FieldName:
                 text:"ID"
             FieldValue:
-                id: alert_id
+                text: root.alert_id
     
     StackLayout:
         orientation:'lr-tb'
@@ -177,25 +175,42 @@
             id: alert_seventh
             spacing: 0
             padding: 0,0,0,0
-            FlatButton:
-                id: english_toggle
+            FlatToggleButton:
                 text: "English TXT"
-                state: 'down'
-            FlatButton:
-                id: spanish_toggle
+                on_release: root.show_english()
+            FlatToggleButton:
                 text: "Spanish TXT"
+                on_release: root.show_spanish()
             FlatButton:
                 text: "CAP XML"
+
             FlatButton:
                 text: "Area on Map"
+
         Grid:
             rows:1
             size_hint_x: None
             width: self.minimum_width
             FlatButton:
                 markup: True
-                text: " Show Alert Details "
+                text: " Show Alert Details"
 
+
+<FlatToggleButton@ToggleButton>
+    background_normal: '' 
+    background_down: ''
+    background_color: utils.get_color_from_hex('#FFFFFF') if self.state=='normal' else utils.get_color_from_hex('#787BA3')
+    color: utils.get_color_from_hex("#0B145A") if self.state=='normal' else utils.get_color_from_hex('#FFFFFF')
+    font_size: sp(12)
+    size_hint: (None,None)
+    width: self.texture_size[0] + sp(20)
+    height: self.texture_size[1] + sp(20)
+    canvas.before:
+        Color:
+            rgba: utils.get_color_from_hex("#D8D9E5")
+        Line:
+            width: 2.5
+            rectangle: self.x, self.y, self.width, self.height
 
 
 <FlatButton>
