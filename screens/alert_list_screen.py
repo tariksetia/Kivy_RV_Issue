@@ -99,6 +99,43 @@ class AlertCard(GridLayout):
         self.language = "English"
         data[idx]['language'] = 'English'
 
+class Card(BoxLayout):
+
+    alert = ObjectProperty()
+    card_state = StringProperty()
+    screen_manager = ObjectProperty()
+    closing_time = NumericProperty(0.2)
+    background_color = StringProperty("#FFFFFF")
+    screen_manager = ObjectProperty()
+
+    sent = StringProperty()
+    sender = StringProperty()
+    expires = StringProperty()
+    long_text = StringProperty()
+    language = StringProperty()
+    short_text = StringProperty()
+    category = StringProperty()
+    event = StringProperty()
+    area_desc = StringProperty()
+    alert_id = StringProperty()
+    status = StringProperty()
+    spanish_toggle_state = StringProperty('normal')
+    english_toggle_state = StringProperty('down')
+
+
+    def show_spanish(self):
+        idx = self.parent.get_view_index_at(self.center)
+        data = self.parent.parent.data
+        self.language = "Spanish"
+        data[idx]['language'] = 'Spanish'
+        
+    
+    def show_english(self):
+        idx = self.parent.get_view_index_at(self.center)
+        data = self.parent.parent.data
+        self.language = "English"
+        data[idx]['language'] = 'English'
+
 
 
 class AlertListScreen(Screen):

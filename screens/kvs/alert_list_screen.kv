@@ -32,14 +32,14 @@
 
             
         AlertListBox:
-            id: alert_list
             RecycleView:
                 id: alert_list_view
                 scroll_type: ['bars', 'content']
-                viewclass: 'AlertCard'
+                viewclass: 'Card'
+                key_size:'height'
                 RecycleGridLayout:
                     cols:1
-                    default_size: None, sp(450)
+                    default_size: None,1
                     default_size_hint: 1, None
                     size_hint:1 ,None
                     height: self.minimum_height
@@ -52,7 +52,6 @@
     padding: sp(20),sp(20),sp(20),sp(20)
     cols:1
     size_hint_y: None
-    height: dp(450)
     canvas.before:
         Color:
             rgba: utils.get_color_from_hex("#e8e8ef")
@@ -201,7 +200,8 @@
     background_down: ''
     background_color: utils.get_color_from_hex('#FFFFFF') if self.state=='normal' else utils.get_color_from_hex('#787BA3')
     color: utils.get_color_from_hex("#0B145A") if self.state=='normal' else utils.get_color_from_hex('#FFFFFF')
-    font_size: sp(12)
+    font_size: sp(14)
+    font_name: './cdc.ttf'
     size_hint: (None,None)
     width: self.texture_size[0] + sp(20)
     height: self.texture_size[1] + sp(20)
@@ -218,7 +218,8 @@
     background_down: ''
     background_color: utils.get_color_from_hex('#FFFFFF') if self.state=='normal' else utils.get_color_from_hex('#787BA3')
     color: utils.get_color_from_hex("#0B145A") if self.state=='normal' else utils.get_color_from_hex('#FFFFFF')
-    font_size: sp(12)
+    font_size: sp(14)
+    font_name: './cdc.ttf'
     size_hint: (None,None)
     width: self.texture_size[0] + sp(20)
     height: self.texture_size[1] + sp(20)
@@ -232,6 +233,7 @@
 
 <FieldName>:
     font_size: sp(12)
+    font_name: './cdc.ttf'
     color: utils.get_color_from_hex("#757BA0")
     size_hint_y: None
     text_size: self.width, None
@@ -241,7 +243,8 @@
     valign: "middle"
 
 <FieldValue>:
-    font_size: sp(12)
+    font_size: sp(14)
+    font_name: './cdc.ttf'
     color: utils.get_color_from_hex("#0B145A")
     size_hint_y: None
     text_size: self.width, None
@@ -254,7 +257,8 @@
     size_hint_y: None
     text_size: self.width, None
     height: self.texture_size[1]
-    font_size: sp(12)
+    font_size: sp(14)
+    font_name: './cdc.ttf'
     color: utils.get_color_from_hex("#0B145A")
     halign: "left"
     bold: True
@@ -263,6 +267,7 @@
 
 <BorderLabel>:
     font_size: sp(12)
+    font_name: './cdc.ttf'
     color: utils.get_color_from_hex("#4b5ace")
     size_hint: (None,None)
     width: self.texture_size[0] + sp(10)
@@ -295,6 +300,7 @@
             pos: self.pos
             size: self.size
     font_size: sp(12)
+    font_name: './cdc.ttf'
     color: utils.get_color_from_hex("#ffffff")
     size_hint: (None,None)
     width: self.texture_size[0] + sp(10)
@@ -302,3 +308,164 @@
     halign: "center"
     bold: True
     valign: "middle"
+
+
+<Card>:
+    spacing: sp(10)
+    padding: sp(20),sp(20),sp(20),sp(20)
+    orientation:'vertical'
+    size_hint_y: None
+    height: self.minimum_height+ sp(30)
+    canvas.before:
+        Color:
+            rgba: utils.get_color_from_hex("#e8e8ef")
+        Line:
+            width: 1.5
+            rectangle: self.x, self.y, self.width, self.height
+        Color:
+            rgba: utils.get_color_from_hex(self.background_color)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    
+    BoxLayout:
+        orientation:'horizontal'
+        size_hint_y: None
+        height: self.minimum_height
+        id: first_layer
+        spacing: sp(10)
+        BackgroundLabel:
+            text: root.status
+        BorderLabel:
+            text: root.category
+    
+    BoxLayout:
+        orientation:'horizontal'
+        size_hint_y: None
+        height: self.minimum_height
+        id: second_layer
+        spacing: sp(20)
+        BoxLayout:
+            size_hint_y: None
+            height: self.minimum_height
+            orientation:'vertical'
+            size_hint_x: 0.2
+            FieldName:
+                text:"SENT"
+            FieldValue:
+                text: root.sent
+        BoxLayout:
+            size_hint_y: None
+            height: self.minimum_height
+            orientation:'vertical'
+            size_hint_x: 0.7
+            FieldName:
+                text:"SENDER"
+            FieldValue:
+                text: root.sender
+    
+    BoxLayout:
+        orientation:'horizontal'
+        size_hint_y: None
+        height: self.minimum_height
+        id: third_layer
+        spacing: sp(20)
+        BoxLayout:
+            size_hint_y: None
+            height: self.minimum_height
+            orientation:'vertical'
+            size_hint_x: 0.2
+            FieldName:
+                text:"EXPIRES"
+            FieldValue:
+                text: root.expires
+        BoxLayout:
+            size_hint_y: None
+            height: self.minimum_height
+            orientation:'vertical'
+            size_hint_x: 0.7
+            FieldName:
+                text:"DESCRIPTION"
+            FieldValueWrappable:
+                text: root.long_text
+    
+    BoxLayout:
+        size_hint_y: None
+        height: self.minimum_height
+        orientation:'horizontal'
+        id: fourth_layer
+        spacing: sp(20)
+        BoxLayout:
+            size_hint_y: None
+            height: self.minimum_height
+            orientation:'vertical'
+            size_hint_x: 0.2
+            FieldName:
+                text:"LANGUAGE"
+            FieldValue:
+                text: root.language
+        BoxLayout:
+            size_hint_y: None
+            height: self.minimum_height
+            orientation:'vertical'
+            size_hint_x: 0.7
+            FieldName:
+                text:"TITLE"
+            FieldValueWrappable:
+                text: root.short_text
+    
+    BoxLayout:
+        size_hint_y: None
+        height: self.minimum_height
+        orientation:'horizontal'
+        id: fifth_layer
+        spacing: sp(20)
+        BoxLayout:
+            size_hint_y: None
+            height: self.minimum_height
+            orientation:'vertical'
+            size_hint_x: 0.2
+            FieldName:
+                text:"CATEGORY"
+            FieldValue:
+                text: root.category
+        BoxLayout:
+            size_hint_y: None
+            height: self.minimum_height
+            orientation:'vertical'
+            size_hint_x: 0.7
+            FieldName:
+                text:"EVENT"
+            FieldValue:
+                text: root.event
+    
+    BoxLayout:
+        orientation:'horizontal'
+        id: sixth_layer
+        spacing: sp(20)
+        size_hint_y: None
+        height: self.minimum_height
+        BoxLayout:
+            size_hint_y: None
+            height: self.minimum_height
+
+            orientation:'vertical'
+            size_hint_x: 0.2
+            FieldName:
+                text:"AREA"
+            FieldValue:
+                text: root.area_desc
+        BoxLayout:
+            size_hint_y: None
+            height: self.minimum_height
+            orientation:'vertical'
+            size_hint_x: 0.7
+            FieldName:
+                text:"ID"
+            FieldValue:
+                text: root.alert_id
+    
+   
+    
+    
+
